@@ -1,4 +1,5 @@
 import RootState from "../store";
 
-// export const selectCount = (RootState) => state.counter.value;
 export const selectCount = (RootState) => RootState.counter.value;
+export const selectTodoList = (RootState) => RootState.todos.todoList;
+export const selectTodoFilter = (RootState) => RootState.todos.filter;
