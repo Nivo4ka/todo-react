@@ -6,6 +6,7 @@ export const StyledDivFooter = styled.div`
   padding: 10px 15px;
   text-align: center;
   border-top: 1px solid #e6e6e6;
+  position: relative;
   background-color: #fefefe;
   box-sizing: border-box;
   box-shadow: 0 1px 1px rgb(0 0 0 / 20%), 0 8px 0 -3px #f6f6f6,
@@ -14,19 +15,8 @@ export const StyledDivFooter = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-
-  /* background-color: ${({ color, isSelected }) =>
-    isSelected ? color : "unset"};
-
-  ${({ isSelected }) => {
-    if (!isSelected) {
-      return "";
-    }
-
-    return css`
-      background-color: red;
-    `;
-  }} */
+  align-items: center;
+  flex-wrap: wrap;
 
   span {
     cursor: default;
@@ -37,13 +27,20 @@ export const StyledUlFooter = styled.ul`
   margin: 0;
   padding: 0;
   list-style: none;
-  /* position: absolute; */
-  right: 0;
-  left: 0;
+  position: relative;
   display: flex;
   flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  @media (max-width: 410px) {
+    width: 100%;
+    order: 1;
+    padding: 10px 15px;
+  }
+  
   li {
-    padding: 0 5px;
+    padding: 0 2px;
   }
 `;
 

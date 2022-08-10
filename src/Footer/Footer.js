@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setFilter, deleteTodos } from ".././app/slices/todosSlice";
 import {
@@ -19,9 +18,11 @@ const Footer = () => {
 
   return (
     <>
-      <StyledDivFooter color="lime">
+      <StyledDivFooter>
         <span>
-          <strong>{todos.length} </strong>
+          <strong>
+            {todos.filter((todo) => todo.isActive == true).length}{" "}
+          </strong>
           item left
         </span>
         <StyledUlFooter>

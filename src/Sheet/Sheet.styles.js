@@ -1,8 +1,8 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const StyledPToggle = styled.label`
   font-size: 22px;
-  color: #737373;
+
   transform: rotate(90deg);
   margin-block-start: 0;
   margin-block-end: 0;
@@ -11,7 +11,27 @@ export const StyledPToggle = styled.label`
   position: relative;
   top: -35px;
   left: 25px;
-  cursor: pointer;
+  cursor: default;
+
+  ${({ todos }) => {
+    if (todos.length === 0) {
+      return css`
+        opacity: 0;
+      `;
+    } else {
+      if (todos.filter((todo) => todo.isActive == true).length !== 0) {
+        return css`
+          opacity: 1;
+          color: #e6e6e6;
+        `;
+      } else {
+        return css`
+          opacity: 1;
+          color: #737373;
+        `;
+      }
+    }
+  }}
 `;
 
 export const StyledDiv = styled.div`
@@ -25,7 +45,6 @@ export const StyledDivShadow = styled(StyledDiv)`
 `;
 
 export const StyledDivNewTodo = styled.div`
-  
   min-width: 230px;
   max-width: 550px;
   width: 100%;

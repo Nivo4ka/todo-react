@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addTodo } from ".././app/slices/todosSlice";
+import { addTodo, switchAllIsActiveTodo } from ".././app/slices/todosSlice";
 import { selectTodoList } from ".././app/selectors/rootSelector";
 import {
   StyledPToggle,
@@ -18,7 +18,10 @@ const Sheet = () => {
   const [newTodo, setNewTodo] = useState("");
 
   const toAddNewTodo = () => {
-    if (newTodo !== "") {
+    if (
+      newTodo !== "" &&
+      newTodo.split("").findIndex((item) => item !== " ") !== -1
+    ) {
       dispatch(addTodo(newTodo));
       setNewTodo("");
     }
@@ -40,7 +43,12 @@ const Sheet = () => {
                 }
               }}
             ></input>
-            {todos && todos.length !== 0 && <StyledPToggle>❯</StyledPToggle>}
+            <StyledPToggle
+              todos={todos}
+              onClick={() => dispatch(switchAllIsActiveTodo())}
+            >
+              ❯
+            </StyledPToggle>
           </StyledDivNewTodo>
         </StyledDiv>
         <Note></Note>
