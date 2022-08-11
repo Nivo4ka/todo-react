@@ -6,10 +6,6 @@ import {
   changeTodo,
 } from ".././app/slices/todosSlice";
 import {
-  selectTodoList,
-  selectTodoFilter,
-} from ".././app/selectors/rootSelector";
-import {
   StyledPanel,
   StyledNote,
   StyledLabelNote,
@@ -21,19 +17,21 @@ import {
 } from "./Note.styles.js";
 
 const Note = () => {
-  const todos = useSelector(selectTodoList);
-  const filter = useSelector(selectTodoFilter);
+  const todos = useSelector((state) => state.todos.todoList);
+  const filter = useSelector((state) => state.todos.filter);
   const dispatch = useDispatch();
   const [changeTodoNote, setChangeTodoNote] = useState({
     title: "",
     index: -1,
   });
 
+  const getIsSelectedTodo = (index) => {
+    const isSelectedTodo = changeTodoNote.index === index;
+    return isSelectedTodo;
+  };
+
   const toChangeTodo = () => {
-    if (
-      changeTodoNote.title !== "" &&
-      changeTodoNote.title.split("").findIndex((item) => item !== " ") !== -1
-    ) {
+    if (changeTodoNote.title.trim()) {
       const { title, index } = changeTodoNote;
       dispatch(changeTodo({ index, title }));
       setChangeTodoNote({
@@ -43,6 +41,23 @@ const Note = () => {
     }
   };
 
+  const getIsVisible = (elem) => {
+    const isVisible =
+      (filter === "Active" && elem.isActive) ||
+      (filter === "Completed" && !elem.isActive) ||
+      filter === "All";
+    return isVisible;
+  };
+  const getToChangeTodoNote = (elem, index) =>
+    setChangeTodoNote({ title: elem.title, index: index });
+  const startToChangeTodoNote = (e) =>
+    setChangeTodoNote({
+      ...changeTodoNote,
+      title: e.target.value,
+    });
+  const toSwitchIsActiveTodo = (index) => dispatch(switchIsActiveTodo(index));
+  const toDeleteTodo = (index) => dispatch(deleteTodo(index));
+
   return (
     <>
       <StyledPanel>
@@ -50,32 +65,25 @@ const Note = () => {
           todos.length !== 0 &&
           todos.map(
             (elem, index) =>
-              ((filter === "Active" && elem.isActive === true) ||
-                (filter === "Completed" && elem.isActive === false) ||
-                filter === "All") && (
+              getIsVisible(elem) && (
                 <StyledNote
                   key={index}
                   onDoubleClick={() => {
-                    setChangeTodoNote({ title: elem.title, index: index });
+                    getToChangeTodoNote(elem, index);
                   }}
                 >
-                  {changeTodoNote.index === index ? (
+                  {getIsSelectedTodo(index) ? (
                     <StyledInputNote
                       value={changeTodoNote.title}
-                      onChange={(e) =>
-                        setChangeTodoNote({
-                          ...changeTodoNote,
-                          title: e.target.value,
-                        })
-                      }
+                      onChange={(e) => startToChangeTodoNote(e)}
                       autoFocus
-                      onBlur={() => toChangeTodo()}
+                      onBlur={toChangeTodo}
                     />
                   ) : (
                     <StyledTitleTodo>
                       <StyledCheckbox
                         checked={!elem.isActive}
-                        onChange={() => dispatch(switchIsActiveTodo(index))}
+                        onChange={() => toSwitchIsActiveTodo(index)}
                       />
                       <StyledLabelCheck
                         checked={!elem.isActive}
@@ -83,9 +91,7 @@ const Note = () => {
                       <StyledLabelNote checked={!elem.isActive}>
                         {elem.title}
                       </StyledLabelNote>
-                      <StyledButtonDestroy
-                        onClick={() => dispatch(deleteTodo(index))}
-                      >
+                      <StyledButtonDestroy onClick={() => toDeleteTodo(index)}>
                         ×
                       </StyledButtonDestroy>
                     </StyledTitleTodo>

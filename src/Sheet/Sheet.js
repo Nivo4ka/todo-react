@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addTodo, switchAllIsActiveTodo } from ".././app/slices/todosSlice";
-import { selectTodoList } from ".././app/selectors/rootSelector";
 import {
   StyledPToggle,
   StyledDivNewTodo,
@@ -12,47 +11,43 @@ import Note from "../Note/Note";
 import Footer from "../Footer/Footer";
 
 const Sheet = () => {
-  const todos = useSelector(selectTodoList);
+  const todos = useSelector((state) => state.todos.todoList);
   const dispatch = useDispatch();
 
   const [newTodo, setNewTodo] = useState("");
-
-  const toAddNewTodo = () => {
-    if (
-      newTodo !== "" &&
-      newTodo.split("").findIndex((item) => item !== " ") !== -1
-    ) {
+  const isGetFooter = todos && todos.length !== 0;
+  
+  const toAddNewTodo = (e) => {
+    e.preventDefault();
+    if (newTodo.trim()) {
       dispatch(addTodo(newTodo));
       setNewTodo("");
     }
   };
+
+  const toSwitchIsActiveTodo = () => dispatch(switchAllIsActiveTodo());
 
   return (
     <>
       <StyledDivShadow>
         <StyledDiv>
           <StyledDivNewTodo>
-            <input
-              value={newTodo}
-              type="text"
-              placeholder="What needs to be done?"
-              onChange={(e) => setNewTodo(e.target.value)}
-              onKeyPress={(e) => {
-                if (e.key == "Enter") {
-                  toAddNewTodo();
-                }
-              }}
-            ></input>
-            <StyledPToggle
-              todos={todos}
-              onClick={() => dispatch(switchAllIsActiveTodo())}
-            >
+            <form onSubmit={(e) => toAddNewTodo(e)}>
+              <input
+                value={newTodo}
+                type="text"
+                placeholder="What needs to be done?"
+                onChange={(e) => setNewTodo(e.target.value)}
+              ></input>
+            </form>
+
+            <StyledPToggle todos={todos} onClick={toSwitchIsActiveTodo}>
               ❯
             </StyledPToggle>
           </StyledDivNewTodo>
         </StyledDiv>
         <Note></Note>
-        {todos && todos.length !== 0 && <Footer />}
+        {isGetFooter && <Footer />}
       </StyledDivShadow>
     </>
   );

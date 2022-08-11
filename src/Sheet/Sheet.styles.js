@@ -19,7 +19,7 @@ export const StyledPToggle = styled.label`
         opacity: 0;
       `;
     } else {
-      if (todos.filter((todo) => todo.isActive == true).length !== 0) {
+      if (todos.filter((todo) => todo.isActive).length !== 0) {
         return css`
           opacity: 1;
           color: #e6e6e6;
@@ -53,6 +53,12 @@ export const StyledDivNewTodo = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  form {
+    min-width: 230px;
+    max-width: 550px;
+    width: 100%;
+  }
 
   input {
     box-sizing: border-box;

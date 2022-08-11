@@ -100,7 +100,7 @@ export const StyledButtonCompleted = styled.button`
   }
 
   ${({ hasCompleted }) => {
-    if (hasCompleted == undefined) {
+    if (hasCompleted) {
       return css`
         visibility: hidden;
       `;
