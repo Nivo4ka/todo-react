@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../app/store";
+import { useAppSelector, useAppDispatch } from "./../app/hooks";
 import {
   switchIsActiveTodo,
   deleteTodo,
@@ -19,9 +18,10 @@ import {
 import { TodoList } from "../interfaces";
 
 const Note = () => {
-  const todos = useSelector((state: RootState) => state.todos.todoList);
-  const filter = useSelector((state: RootState) => state.todos.filter);
-  const dispatch = useDispatch();
+  const todos = useAppSelector((state) => state.todos.todoList);
+  const filter = useAppSelector((state) => state.todos.filter);
+  const dispatch = useAppDispatch();
+
   const [changeTodoNote, setChangeTodoNote] = useState({
     title: "",
     index: -1,
@@ -78,7 +78,7 @@ const Note = () => {
                   {getIsSelectedTodo(index) ? (
                     <StyledInputNote
                       value={changeTodoNote.title}
-                      onChange={(e) => startToChangeTodoNote(e)}
+                      onChange={startToChangeTodoNote}
                       autoFocus
                       onBlur={toChangeTodo}
                     />

@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../store";
 import { TodoList, TodosState, ChangeTodo } from "./../../interfaces.js";
 
 export const initialState: TodosState = {
@@ -23,7 +24,7 @@ export const todosSlice = createSlice({
     },
 
     deleteTodos: (state) => {
-      state.todoList = state.todoList.filter((todo: TodoList) => todo.isActive);
+      state.todoList = state.todoList.filter((todo) => todo.isActive);
     },
 
     deleteTodo: (state, action: PayloadAction<number>) => {
@@ -36,15 +37,11 @@ export const todosSlice = createSlice({
     },
 
     switchAllIsActiveTodo: (state) => {
-      if (
-        state.todoList.filter((todo: TodoList) => todo.isActive).length !== 0
-      ) {
-        state.todoList.forEach((todo: TodoList) => (todo.isActive = false));
+      if (state.todoList.filter((todo) => todo.isActive).length !== 0) {
+        state.todoList.forEach((todo) => (todo.isActive = false));
       } else {
-        if (
-          state.todoList.filter((todo: TodoList) => todo.isActive).length === 0
-        ) {
-          state.todoList.forEach((todo: TodoList) => (todo.isActive = true));
+        if (state.todoList.filter((todo) => todo.isActive).length === 0) {
+          state.todoList.forEach((todo) => (todo.isActive = true));
         }
       }
     },
@@ -64,5 +61,8 @@ export const {
   switchAllIsActiveTodo,
   setFilter,
 } = todosSlice.actions;
+
+export const selectTodoList = (state: RootState) => state.todos.todoList;
+export const selectFilter = (state: RootState) => state.todos.filter;
 
 export default todosSlice.reducer;

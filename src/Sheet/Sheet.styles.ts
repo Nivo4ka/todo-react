@@ -1,7 +1,9 @@
 import styled, { css } from "styled-components";
-import { TodoList } from "./../interfaces";
 
-export const StyledPToggle = styled.label<{ todos: TodoList[] }>`
+export const StyledPToggle = styled.label<{
+  isGetTodos: boolean;
+  numberOfActiveTodos: boolean;
+}>`
   font-size: ${({ theme }) => theme.palette.font.sizeToggle};
 
   transform: rotate(90deg);
@@ -14,13 +16,13 @@ export const StyledPToggle = styled.label<{ todos: TodoList[] }>`
   left: 25px;
   cursor: default;
 
-  ${({ todos }) => {
-    if (todos.length === 0) {
+  ${({ isGetTodos, numberOfActiveTodos }) => {
+    if (!isGetTodos) {
       return css`
         opacity: 0;
       `;
     } else {
-      if (todos.filter((todo) => todo.isActive).length !== 0) {
+      if (numberOfActiveTodos) {
         return css`
           opacity: 1;
           color: ${({ theme }) => theme.palette.lightTheme.placeholderText};

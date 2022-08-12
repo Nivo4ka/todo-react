@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../app/store";
+import { useAppSelector, useAppDispatch } from "./../app/hooks";
 import { addTodo, switchAllIsActiveTodo } from "../app/slices/todosSlice";
 import {
   StyledPToggle,
@@ -8,17 +7,20 @@ import {
   StyledDiv,
   StyledDivShadow,
 } from "./Sheet.styles";
-import { TodoList } from "./../interfaces";
 import Note from "../Note/Note";
 import Footer from "../Footer/Footer";
 
 const Sheet = () => {
-  const todos = useSelector((state: RootState) => state.todos.todoList);
-  const dispatch = useDispatch();
+  const todos = useAppSelector((state) => state.todos.todoList);
+  const dispatch = useAppDispatch();
 
   const [newTodo, setNewTodo] = useState("");
-  const isGetFooter = todos && todos.length !== 0;
+  const isGetTodos = todos && todos.length !== 0;
+  const numberOfActiveTodos =
+    todos.filter((todo) => todo.isActive).length !== 0;
 
+  const toChangeNewTodo = (e: React.ChangeEvent<HTMLInputElement>) =>
+    setNewTodo(e.target.value);
   const toAddNewTodo = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (newTodo.trim()) {
@@ -33,22 +35,26 @@ const Sheet = () => {
     <StyledDivShadow>
       <StyledDiv>
         <StyledDivNewTodo>
-          <form onSubmit={(e) => toAddNewTodo(e)}>
+          <form onSubmit={toAddNewTodo}>
             <input
               value={newTodo}
               type="text"
               placeholder="What needs to be done?"
-              onChange={(e) => setNewTodo(e.target.value)}
+              onChange={toChangeNewTodo}
             />
           </form>
 
-          <StyledPToggle todos={todos} onClick={toSwitchIsActiveTodo}>
+          <StyledPToggle
+            isGetTodos={isGetTodos}
+            numberOfActiveTodos={numberOfActiveTodos}
+            onClick={toSwitchIsActiveTodo}
+          >
             ❯
           </StyledPToggle>
         </StyledDivNewTodo>
       </StyledDiv>
       <Note />
-      {isGetFooter && <Footer />}
+      {isGetTodos && <Footer />}
     </StyledDivShadow>
   );
 };

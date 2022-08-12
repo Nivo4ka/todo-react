@@ -45,7 +45,6 @@ export const StyledUlFooter = styled.ul`
 `;
 
 export const StyledFilter = styled.a<{ isSelected: boolean }>`
-  /* color: ${({ theme }) => theme.palette.lightTheme.infoText}; */
   margin: 3px;
   padding: 3px 7px;
   text-decoration: none;
