@@ -1,26 +1,12 @@
 import styled, { css } from "styled-components";
 
-export const StyledPToggle = styled.label`
-  font-size: 22px;
-  color: #737373;
-  transform: rotate(90deg);
-  margin-block-start: 0;
-  margin-block-end: 0;
-  width: fit-content;
-  height: 0;
-  position: relative;
-  top: -35px;
-  left: 25px;
-  cursor: pointer;
-`;
-
 export const StyledPanel = styled.div`
   min-width: 230px;
   max-width: 550px;
   width: 100%;
 `;
 
-export const StyledLabelCheck = styled.label`
+export const StyledLabelCheck = styled.label<{ checked: boolean }>`
   width: 50px;
   height: 35px;
   word-break: break-all;
@@ -37,7 +23,7 @@ export const StyledLabelCheck = styled.label`
   user-select: none;
 `;
 
-export const StyledLabelNote = styled.label`
+export const StyledLabelNote = styled.label<{ checked: boolean }>`
   width: 100%;
   word-break: break-all;
   padding: 15px 15px 15px 20px;
@@ -57,16 +43,18 @@ export const StyledLabelNote = styled.label`
 `;
 
 export const StyledNote = styled(StyledPanel)`
-  background: #fefefe;
-  color: #4d4d4d;
-  font: 24px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background: ${({ theme }) => theme.palette.lightTheme.main};
+  color: ${({ theme }) => theme.palette.lightTheme.activeText};
+  font-size: ${({ theme }) => theme.palette.font.sizeMain};
+  font-family: ${({ theme }) => theme.palette.font.family};
   display: flex;
   flex-direction: row;
   align-items: center;
-  border-bottom: 1px solid #ededed;
+  border-bottom: 1px solid
+    ${({ theme }) => theme.palette.lightTheme.borderBottom};
   position: relative;
   :first-child {
-    border-top: 1px solid #e6e6e6;
+    border-top: 1px solid ${({ theme }) => theme.palette.lightTheme.borderColor};
   }
   :last-child {
     border-bottom: 0;
@@ -84,7 +72,7 @@ export const StyledCheckbox = styled.input.attrs({ type: "checkbox" })`
 `;
 
 export const StyledButtonDestroy = styled.button`
-  background-color: #ffffff00;
+  background: none;
   width: 40px;
   height: 35px;
   margin: auto;
@@ -94,8 +82,8 @@ export const StyledButtonDestroy = styled.button`
   width: 40px;
   height: 40px;
   margin: auto 0;
-  font-size: 30px;
-  color: #cc9a9a;
+  font-size: ${({ theme }) => theme.palette.font.sizeButton};
+  color: ${({ theme }) => theme.palette.lightTheme.buttonColorDestroy};
   cursor: pointer;
   opacity: 0;
   ${StyledNote}:hover & {
@@ -117,12 +105,11 @@ export const StyledInputNote = styled.input.attrs({ type: "text" })`
   position: relative;
   margin: 0 0 0 42px;
   width: 100%;
-  font-size: 24px;
-  font-family: inherit;
+  font-size: ${({ theme }) => theme.palette.font.sizeMain};
   font-weight: inherit;
   line-height: 1.4em;
   border: 0;
-  color: inherit;
+  color: ${({ theme }) => theme.palette.lightTheme.activeText};
   padding: 12px 16px;
   border: 1px solid #999;
   box-shadow: inset 0 -1px 5px 0 rgb(0 0 0 / 20%);

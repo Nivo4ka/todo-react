@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../app/store";
 import {
   switchIsActiveTodo,
   deleteTodo,
   changeTodo,
-} from ".././app/slices/todosSlice";
+} from "../app/slices/todosSlice";
 import {
   StyledPanel,
   StyledNote,
@@ -14,18 +15,19 @@ import {
   StyledButtonDestroy,
   StyledInputNote,
   StyledTitleTodo,
-} from "./Note.styles.js";
+} from "./Note.styles";
+import { TodoList } from "../interfaces";
 
 const Note = () => {
-  const todos = useSelector((state) => state.todos.todoList);
-  const filter = useSelector((state) => state.todos.filter);
+  const todos = useSelector((state: RootState) => state.todos.todoList);
+  const filter = useSelector((state: RootState) => state.todos.filter);
   const dispatch = useDispatch();
   const [changeTodoNote, setChangeTodoNote] = useState({
     title: "",
     index: -1,
   });
 
-  const getIsSelectedTodo = (index) => {
+  const getIsSelectedTodo = (index: number) => {
     const isSelectedTodo = changeTodoNote.index === index;
     return isSelectedTodo;
   };
@@ -41,22 +43,23 @@ const Note = () => {
     }
   };
 
-  const getIsVisible = (elem) => {
+  const getIsVisible = (elem: TodoList) => {
     const isVisible =
       (filter === "Active" && elem.isActive) ||
       (filter === "Completed" && !elem.isActive) ||
       filter === "All";
     return isVisible;
   };
-  const getToChangeTodoNote = (elem, index) =>
+  const getToChangeTodoNote = (elem: TodoList, index: number) =>
     setChangeTodoNote({ title: elem.title, index: index });
-  const startToChangeTodoNote = (e) =>
+  const startToChangeTodoNote = (e: React.ChangeEvent<HTMLInputElement>) =>
     setChangeTodoNote({
       ...changeTodoNote,
       title: e.target.value,
     });
-  const toSwitchIsActiveTodo = (index) => dispatch(switchIsActiveTodo(index));
-  const toDeleteTodo = (index) => dispatch(deleteTodo(index));
+  const toSwitchIsActiveTodo = (index: number) =>
+    dispatch(switchIsActiveTodo(index));
+  const toDeleteTodo = (index: number) => dispatch(deleteTodo(index));
 
   return (
     <>

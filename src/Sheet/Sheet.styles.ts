@@ -1,7 +1,8 @@
 import styled, { css } from "styled-components";
+import { TodoList } from "./../interfaces";
 
-export const StyledPToggle = styled.label`
-  font-size: 22px;
+export const StyledPToggle = styled.label<{ todos: TodoList[] }>`
+  font-size: ${({ theme }) => theme.palette.font.sizeToggle};
 
   transform: rotate(90deg);
   margin-block-start: 0;
@@ -22,12 +23,12 @@ export const StyledPToggle = styled.label`
       if (todos.filter((todo) => todo.isActive).length !== 0) {
         return css`
           opacity: 1;
-          color: #e6e6e6;
+          color: ${({ theme }) => theme.palette.lightTheme.placeholderText};
         `;
       } else {
         return css`
           opacity: 1;
-          color: #737373;
+          color: ${({ theme }) => theme.palette.lightTheme.activeToggleColor};
         `;
       }
     }
@@ -71,13 +72,13 @@ export const StyledDivNewTodo = styled.div`
     width: 100%;
     border: none;
     outline: none;
-    font-size: 24px;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: ${({ theme }) => theme.palette.font.sizeMain};
+    font-family: ${({ theme }) => theme.palette.font.family};
     font-weight: inherit;
     line-height: 1.4em;
-    color: #4d4d4d;
+    color: ${({ theme }) => theme.palette.lightTheme.activeText};
     ::placeholder {
-      color: #e6e6e6;
+      color: ${({ theme }) => theme.palette.lightTheme.placeholderText};
       font-style: italic;
     }
   }

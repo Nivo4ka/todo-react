@@ -9,9 +9,9 @@ export const GlobalStyle = createGlobalStyle`
 }
 
 body {
-  min-height: 100vh;
-  background-color: #f5f5f5;
-  font: 14px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-color: ${({ theme }) => theme.palette.lightTheme.backdround};
+  font-size: ${({ theme }) => theme.palette.font.sizeFooter};
+  font-family: ${({ theme }) => theme.palette.font.family};
   div{
     box-sizing: border-box;
   }
@@ -34,8 +34,8 @@ export const StyledDivContiner = styled.div`
   align-items: center;
 
   h1 {
-    font-size: 100px;
-    font-weight: 100;
-    color: #af2f2f26;
+    font-size: ${({ theme }) => theme.palette.font.sizeTitle};
+    font-weight: ${({ theme }) => theme.palette.font.weight};
+    color: ${({ theme }) => theme.palette.lightTheme.titleText};
   }
 `;

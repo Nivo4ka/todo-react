@@ -2,12 +2,12 @@ import styled, { css } from "styled-components";
 
 export const StyledDivFooter = styled.div`
   width: 100%;
-  color: #777;
+  color: ${({ theme }) => theme.palette.lightTheme.infoText};
   padding: 10px 15px;
   text-align: center;
-  border-top: 1px solid #e6e6e6;
+  border-top: 1px solid ${({ theme }) => theme.palette.lightTheme.borderColor};
   position: relative;
-  background-color: #fefefe;
+  background-color: ${({ theme }) => theme.palette.lightTheme.main};
   box-sizing: border-box;
   box-shadow: 0 1px 1px rgb(0 0 0 / 20%), 0 8px 0 -3px #f6f6f6,
     0 9px 1px -3px rgb(0 0 0 / 20%), 0 16px 0 -6px #f6f6f6,
@@ -38,14 +38,14 @@ export const StyledUlFooter = styled.ul`
     order: 1;
     padding: 10px 15px;
   }
-  
+
   li {
     padding: 0 2px;
   }
 `;
 
-export const StyledFilter = styled.a`
-  color: inherit;
+export const StyledFilter = styled.a<{ isSelected: boolean }>`
+  /* color: ${({ theme }) => theme.palette.lightTheme.infoText}; */
   margin: 3px;
   padding: 3px 7px;
   text-decoration: none;
@@ -57,19 +57,20 @@ export const StyledFilter = styled.a`
     if (!isSelected) {
       return css`
         :hover {
-          border-color: rgba(175, 47, 47, 0.1);
+          border-color: ${({ theme }) =>
+            theme.palette.lightTheme.borderColorUlHover};
         }
       `;
     }
 
     return css`
-      border-color: rgba(175, 47, 47, 0.2);
+      border-color: ${({ theme }) =>
+        theme.palette.lightTheme.borderColorUlActive};
     `;
   }}
 `;
 
 export const StyledAFocus = styled.a`
-  color: inherit;
   margin: 3px;
   padding: 3px 7px;
   text-decoration: none;
@@ -79,16 +80,15 @@ export const StyledAFocus = styled.a`
   border-color: rgba(175, 47, 47, 0.2);
 `;
 
-export const StyledButtonCompleted = styled.button`
+export const StyledButtonCompleted = styled.button<{ hasCompleted: boolean }>`
   margin: 0;
   padding: 0;
   border: 0;
   background: none;
   font-size: 100%;
   vertical-align: baseline;
-  font-family: inherit;
   font-weight: inherit;
-  color: inherit;
+  color: ${({ theme }) => theme.palette.lightTheme.infoText};
   appearance: none;
   float: right;
   position: relative;
